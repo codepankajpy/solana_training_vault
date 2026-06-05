@@ -1682,7 +1682,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "my-vault"
+name = "my_vault"
 version = "0.1.0"
 dependencies = [
  "anchor-lang",

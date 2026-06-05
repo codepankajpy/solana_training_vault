@@ -9,7 +9,7 @@ pub use constants::*;
 pub use instructions::*;
 pub use state::*;
 
-declare_id!("5ZcAT1AQBhQdcj7pMo4zq4SvjmqM8NgBZ1nBWRSgAWLp"); // my program ID
+declare_id!("4KW9NMLsWje1pQVvc8f11tupdUDKeNJh7N15rG9eDqQv"); // my program ID
 
 // anchor keys sync if any error related to key mismatch
 
@@ -18,6 +18,6 @@ pub mod learn_vault {
     use super::*;
 
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        initialize::handler(ctx)
+        initialize::initialize_vault(ctx)
     }
 }

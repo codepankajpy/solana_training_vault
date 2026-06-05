@@ -1,4 +1,4 @@
-use anchor_lang::{prelude::*, solana_program::entrypoint::ProgramResult, system_program};
+use anchor_lang::{prelude::*, system_program};
 
 use crate::{VaultState, VAULT_SEED, STATE_SEED};
 
@@ -11,10 +11,11 @@ pub struct Initialize<'info> {
         payer = user, // user will bear the account creation cost
         seeds = [STATE_SEED, user.key().as_ref()], // user key used because so creating the state account is deterministic
         bump,
-        space = VaultState::INIT_SPACE, 
+        space = VaultState::INIT_SPACE,  // discriminator + struct size
     )]
     pub state: Account<'info, VaultState>, // PDA account containing vault state data 
     #[account(
+        mut, // why use this????
         seeds = [VAULT_SEED, state.key().as_ref()], // state key used here because the state account will store all the lamports in this account so needed a deterministic way
         bump,
     )]
@@ -32,6 +33,9 @@ pub struct Initialize<'info> {
 //         // storing the bumps in the vault and state account so no need to call again and again and to save compute
 //     }
 // }
+
+
+// explain this code and understand what is going on here
 
 pub fn initialize_vault(ctx: Context<Initialize>) -> Result<()> {
     let cpi_account = system_program::Transfer {
