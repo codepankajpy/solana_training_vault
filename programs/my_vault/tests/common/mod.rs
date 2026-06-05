@@ -91,6 +91,22 @@ pub fn build_withdraw_ix(user: &Pubkey, amount: u64) -> Instruction {
     )
 }
 
+pub fn build_close_ix(user: &Pubkey) -> Instruction {
+    let (state, _) = state_pda(user);
+    let (vault, _) = vault_pda(user);
+
+    Instruction::new_with_bytes(
+        my_vault::id(),
+        &my_vault::instruction::Close{}.data(),
+        my_vault::accounts::Close{
+            user: *user, 
+            state,
+            vault,
+            system_program: system_program::ID,
+        }.to_account_metas(None),
+    )
+}
+
 pub fn send_ix(svm: &mut LiteSVM, user: &Keypair, instruction: Instruction) {
     let blockhash = svm.latest_blockhash();
     
